@@ -1,0 +1,29 @@
+# Dependencies — recreate in Docker
+node_modules/
+
+# Tests — nu fac parte din imaginea de productie
+tests/
+coverage/
+test-results/
+playwright-report/
+*.test.js
+*.spec.js
+playwright.config.js
+
+# Config locale
+.env
+.env.*
+*.secret
+eslint.config.js
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# README
+README.md

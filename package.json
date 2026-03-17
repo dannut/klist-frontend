@@ -1,0 +1,17 @@
+{
+  "name": "kli-frontend",
+  "version": "1.0.0",
+  "description": "kli.st frontend — DevOps CLI search",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --exclude tests/**",
+    "test:watch": "vitest --exclude tests/**",
+    "test:e2e": "playwright test",
+    "lint": "eslint src/js/"
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0",
+    "eslint": "^9.0.0",
+    "@playwright/test": "^1.44.0"
+  }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="kli.st — fast search for DevOps CLI commands">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; img-src 'self' data:;">
+    <title>kli.st — DevOps CLI search</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.5'><polyline points='4 17 10 11 4 5'/><line x1='12' y1='19' x2='20' y2='19'/></svg>">
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="https://kli.st">
+    <meta property="og:title"       content="kli.st — DevOps CLI search">
+    <meta property="og:description" content="1500+ commands. 20 tools. Instant search.">
+    <meta name="twitter:card"        content="summary">
+    <meta name="twitter:title"       content="kli.st — DevOps CLI search">
+    <meta name="twitter:description" content="1500+ commands. 20 tools. Instant search.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="toast" class="toast">Copied!</div>
+
+    <header class="navbar">
+        <a href="#" class="logo" id="nav-home">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+            kli.st
+        </a>
+        <nav class="nav-links">
+            <a href="#" class="nav-item" id="nav-about">/about</a>
+            <a href="#" class="nav-item" id="nav-get_kli">/get kli</a>
+            <a href="#" class="nav-item" id="nav-releases">/roadmap</a>
+        </nav>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="main-card">
+
+            <!-- ==================== HOME ==================== -->
+            <div id="home-view" class="view active">
+                <div class="search-panel">
+                    <h1 class="hero-title">kli.st</h1>
+                    <p class="hero-subtitle">access DevOps commands</p>
+                    <div class="search-container">
+                        <label class="search-label">// enter tool name or keyword</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="searchInput" placeholder="e.g. docker, kubectl get pods" autocomplete="off">
+                            <button class="clear-btn" id="clearBtn">×</button>
+                        </div>
+                        <button class="btn-primary" id="searchBtn">search</button>
+                    </div>
+                    <p class="contact-info">
+                        &gt; ping us:<br>
+                        <code>hello</code>_<code>at</code>_<code>kli.st</code>
+                    </p>
+                </div>
+
+                <div class="results-panel">
+                    <div class="results-meta">
+                        <h2 class="results-title" id="resultsTitle"></h2>
+                        <span class="results-count" id="resultsCount"></span>
+                    </div>
+                    <div class="results-scroll">
+                        <ul id="resultsList">
+                            <li class="hint-state">$ ready to search_</li>
+                        </ul>
+                    </div>
+                    <div id="pagination" class="pagination">
+                        <button class="page-btn" id="btnPrev" disabled>&#8592; Prev</button>
+                        <span class="page-info" id="pageInfo">Page 1 of 1</span>
+                        <button class="page-btn" id="btnNext" disabled>Next &#8594;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== ABOUT ==================== -->
+            <div id="about-view" class="view">
+                <div class="page-scroll">
+                    <h1 class="page-title">info</h1>
+                    <p class="page-text">
+                        <strong>kli.st</strong> is a knowledge base engineered for DevOps professionals and System Administrators. In complex containerized and orchestrated environments, memorizing every syntax nuance for tools like Kubernetes, Docker, or Linux is highly inefficient.
+                        <br>
+                        <strong>kli.st</strong> bridges this gap by delivering instant, full-text search across more than 5000 CLI commands.
+                    </p>
+
+                    <h2 class="block-title">features</h2>
+                    <ul class="feature-list">
+                        <li>Full-text search across 5000+ commands</li>
+                        <li>20 DevOps tools covered</li>
+                        <li>One-click copy to clipboard</li>
+                        <li>CLI tool for terminal use (<code>kli search docker</code>)</li>
+                        <li>Open source</li>
+                    </ul>
+
+                    <h2 class="block-title">covered tools</h2>
+                    <div class="chips">
+                        <span class="chip docker">Docker</span>
+                        <span class="chip kubernetes">Kubernetes</span>
+                        <span class="chip git">Git</span>
+                        <span class="chip terraform">Terraform</span>
+                        <span class="chip aws">AWS CLI</span>
+                        <span class="chip azure">Azure CLI</span>
+                        <span class="chip gcloud">GCloud</span>
+                        <span class="chip helm">Helm</span>
+                        <span class="chip argocd">ArgoCD</span>
+                        <span class="chip ansible">Ansible</span>
+                        <span class="chip jenkins">Jenkins</span>
+                        <span class="chip linux">Linux</span>
+                        <span class="chip prometheus">Prometheus</span>
+                        <span class="chip grafana">Grafana</span>
+                        <span class="chip vault">Vault</span>
+                        <span class="chip redis">Redis</span>
+                        <span class="chip kafka">Kafka</span>
+                        <span class="chip harbor">Harbor</span>
+                        <span class="chip nginx">Nginx</span>
+                        <span class="chip flux">Flux</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== GET KLI ==================== -->
+            <div id="get_kli-view" class="view">
+                <div class="page-scroll">
+                    <h1 class="page-title">get kli</h1>
+                    <p class="page-text">Use kli.st directly from your terminal. No root required, no dependencies.</p>
+
+                    <div class="terminal-box">
+                        <div class="term-header">
+                            <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                            <span>terminal</span>
+                        </div>
+                        <pre class="code-block">install:
+<span class="prompt">$</span> curl -sL https://test.kli.st/install.sh | bash</pre>
+                        <pre class="code-block">usage:
+<span class="prompt">$</span> kli search docker
+<span class="prompt">$</span> kli search "list containers"
+<span class="prompt">$</span> kli search tool=kubernetes
+<span class="prompt">$</span> kli --help</pre>
+                    </div>
+
+                    <!--<h2 class="block-title">manual install</h2>
+                    <div class="install-grid">
+                        <div class="install-card">
+                            <div class="install-os">Linux (amd64)</div>
+                            <code>curl -sL https://kli.st/releases/kli-linux-amd64 -o ~/.local/bin/kli &amp;&amp; chmod +x ~/.local/bin/kli</code>
+                        </div>
+                        <div class="install-card">
+                            <div class="install-os">Linux (arm64)</div>
+                            <code>curl -sL https://kli.st/releases/kli-linux-arm64 -o ~/.local/bin/kli &amp;&amp; chmod +x ~/.local/bin/kli</code>
+                        </div>
+                        <div class="install-card">
+                            <div class="install-os">macOS (Intel)</div>
+                            <code>curl -sL https://kli.st/releases/kli-darwin-amd64 -o ~/.local/bin/kli &amp;&amp; chmod +x ~/.local/bin/kli</code>
+                        </div>
+                        <div class="install-card">
+                            <div class="install-os">macOS (Apple Silicon)</div>
+                            <code>curl -sL https://kli.st/releases/kli-darwin-arm64 -o ~/.local/bin/kli &amp;&amp; chmod +x ~/.local/bin/kli</code>
+                        </div>
+                    </div> -->
+
+                    <h2 class="block-title">source</h2>
+                    <p class="page-text">kli.st is open source. View the code, report issues, or contribute on GitHub.</p>
+                    <a href="https://github.com/dannut/kli" class="gh-link" target="_blank" rel="noopener">
+                        View on Github &#8594;
+                    </a>
+                </div>
+            </div>
+
+            <!-- ==================== ROADMAP ==================== -->
+            <div id="releases-view" class="view">
+                <div class="page-scroll">
+                    <h1 class="page-title">roadmap</h1>
+
+                    <div class="terminal-box">
+                        <div class="term-header">
+                            <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                            <span>roadmap.yaml</span>
+                        </div>
+                        <pre class="code-block"><span class="yk">version:</span> <span class="yv">"v1.0"</span>
+<span class="yk">status:</span>  <span class="yok">"Production"</span>
+<span class="yk">released:</span>
+  <span class="yd">-</span> <span class="yk">version:</span> <span class="yv">"v1.0"</span>
+    <span class="yk">date:</span>    <span class="yv">"March 2026"</span>
+    <span class="yk">tag:</span>     <span class="yok">"stable"</span>
+    <span class="yk">changelog:</span>
+      <span class="yd">-</span> <span class="yv">"Initial public release"</span>
+      <span class="yd">-</span> <span class="yv">"5000+ commands across 20 DevOps tools"</span>
+      <span class="yd">-</span> <span class="yv">"Web interface with full-text search"</span>
+      <span class="yd">-</span> <span class="yv">"CLI tool kli for Linux"</span>
+      
+<span class="yk">upcoming:</span>
+  <span class="yd">-</span> <span class="yk">feature:</span> <span class="yv">"AI agent"</span>
+    <span class="yk">status:</span>  <span class="ywarn">"In Progress"</span>
+  <span class="yd">-</span> <span class="yk">feature:</span> <span class="yv">"Expand commands database"</span>
+    <span class="yk">status:</span>  <span class="yinfo">"Planned"</span>
+  <span class="yd">-</span> <span class="yk">feature:</span> <span class="yv">"Dark mode"</span>
+    <span class="yk">status:</span>  <span class="yinfo">"Planned"</span>
+  <span class="yd">-</span> <span class="yk">feature:</span> <span class="yv">"Browser extension"</span>
+    <span class="yk">status:</span>  <span class="yinfo">"Planned"</span></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- .main-card -->
+    </div><!-- .content-wrapper -->
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
+
