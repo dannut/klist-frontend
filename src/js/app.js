@@ -157,5 +157,3 @@ document.addEventListener('DOMContentLoaded', function () {
     navClick('nav-get_kli',  'get_kli');
     navClick('nav-releases', 'releases');
 });
-
-// init
