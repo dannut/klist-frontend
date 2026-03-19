@@ -48,7 +48,7 @@ async function doSearch(page = 1) {
 
     } catch (e) {
         if (e.name === 'AbortError') return;
-        UI.showError("backend offline — run 'go run .' in backend/cmd");
+        UI.showError("No commands found matching your search criteria. Please refine your keywords.");
     }
 }
 
