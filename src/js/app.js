@@ -135,7 +135,7 @@ async function doSearch(page = 1) {
 
         updatePaginationButtons(page > 1, state.hasMore);
 
-    } catch {
+    } catch (e) {
         if (e.name === 'AbortError') return;
         UI.showError("No commands found matching your search criteria. Please refine your keywords.");
     }
