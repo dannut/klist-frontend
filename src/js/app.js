@@ -19,7 +19,7 @@ async function loadVersion() {
         if (!resp.ok) return;
         const data = await resp.json();
         renderRoadmap(data);
-    } catch (e) {
+    } catch {
         // Silently fail — hardcoded content remains visible
     }
 }
@@ -87,7 +87,7 @@ function parseYamlList(raw) {
         });
         if (current) items.push(current);
         return items;
-    } catch (e) {
+    } catch {
         return [];
     }
 }
@@ -135,7 +135,7 @@ async function doSearch(page = 1) {
 
         updatePaginationButtons(page > 1, state.hasMore);
 
-    } catch (e) {
+    } catch {
         if (e.name === 'AbortError') return;
         UI.showError("No commands found matching your search criteria. Please refine your keywords.");
     }
