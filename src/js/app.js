@@ -33,13 +33,11 @@ function renderRoadmap(data) {
     const released = parseYamlList(data.released || '');
     released.forEach(function(rel) {
         releasedYaml += '  <span class="yd">-</span> <span class="yk">version:</span> <span class="yv">"'  + escHtml(rel.version || '') + '"</span>\n';
-        releasedYaml += '    <span class="yk">date:</span>    <span class="yv">"'  + escHtml(rel.date || '') + '"</span>\n';
-        releasedYaml += '    <span class="yk">tag:</span>     <span class="yok">"'  + escHtml(rel.tag || '') + '"</span>\n';
         releasedYaml += '    <span class="yk">changelog:</span>\n';
         (rel.changelog || []).forEach(function(item) {
             releasedYaml += '      <span class="yd">-</span> <span class="yv">"'  + escHtml(item) + '"</span>\n';
         });
-        releasedYaml += '      \n';
+        releasedYaml += '\n';
     });
 
     // Build upcoming entries
