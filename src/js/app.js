@@ -11,113 +11,6 @@ const state = {
 
 let currentController = null;
 
-// ── Version loader ────────────────────────────────────────────────────────────
-
-async function loadVersion() {
-    try {
-        const resp = await fetch('/api/version');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        renderRoadmap(data);
-    } catch {
-        // Silently fail — hardcoded content remains visible
-    }
-}
-
-function renderRoadmap(data) {
-    const box = document.getElementById('roadmap-content');
-    if (!box) return;
-
-    // Build released block (single entry: date, tag, changelog)
-    const rel = parseYamlBlock(data.released || '');
-    let releasedYaml = '';
-    if (rel.date) releasedYaml += '  <span class="yk">date:</span>    <span class="yv">"' + escHtml(rel.date) + '"</span>\n';
-    if (rel.tag)  releasedYaml += '  <span class="yk">tag:</span>     <span class="yok">"' + escHtml(rel.tag) + '"</span>\n';
-    if (rel.changelog && rel.changelog.length) {
-        releasedYaml += '  <span class="yk">changelog:</span>\n';
-        rel.changelog.forEach(function(item) {
-            releasedYaml += '    <span class="yd">-</span> <span class="yv">"' + escHtml(item) + '"</span>\n';
-        });
-    }
-
-    // Build upcoming entries
-    let upcomingYaml = '';
-    const upcoming = parseYamlList(data.upcoming || '');
-    upcoming.forEach(function(u) {
-        upcomingYaml += '  <span class="yd">-</span> <span class="yk">feature:</span> <span class="yv">"'  + escHtml(u.feature || '') + '"</span>\n';
-        const statusClass = u.status === 'in progress' ? 'ywarn' : 'yinfo';
-        upcomingYaml += '    <span class="yk">status:</span>  <span class="' + statusClass + '">"'  + escHtml(u.status || '') + '"</span>\n';
-    });
-
-    box.innerHTML =
-        '<span class="yk">version:</span> <span class="yv">"'  + escHtml(data.version || 'v1.0.0') + '"</span>\n' +
-        '<span class="yk">status:</span>  <span class="yok">"'  + escHtml(data.status || 'Production') + '"</span>\n' +
-        '<span class="yk">released:</span>\n' + releasedYaml +
-        '<span class="yk">upcoming:</span>\n' + upcomingYaml;
-}
-
-// Minimal YAML list parser — parses the simple list format from ConfigMap
-function parseYamlList(raw) {
-    if (!raw || typeof raw !== 'string') return [];
-    try {
-        const items = [];
-        let current = null;
-        raw.split('\n').forEach(function(line) {
-            const trimmed = line.trim();
-            if (trimmed.startsWith('- version:') || trimmed.startsWith('- feature:')) {
-                if (current) items.push(current);
-                current = {};
-            }
-            if (!current) return;
-            const m = trimmed.match(/^-?\s*(\w+):\s*"?([^"]*)"?/);
-            if (m) {
-                const key = m[1];
-                const val = m[2].trim();
-                if (key === 'changelog') {
-                    current.changelog = [];
-                } else {
-                    current[key] = val;
-                }
-            }
-            if (trimmed.startsWith('- "') && current && current.changelog) {
-                current.changelog.push(trimmed.replace(/^-\s*"?/, '').replace(/"$/, ''));
-            }
-        });
-        if (current) items.push(current);
-        return items;
-    } catch {
-        return [];
-    }
-}
-
-// Parses a simple YAML block (key: value + changelog list) from ConfigMap
-function parseYamlBlock(raw) {
-    if (!raw || typeof raw !== 'string') return {};
-    const result = {};
-    raw.split('\n').forEach(function(line) {
-        const trimmed = line.trim();
-        const m = trimmed.match(/^(\w+):\s*"?([^"]*)"?/);
-        if (m && m[1] !== 'changelog') {
-            result[m[1]] = m[2].trim();
-        }
-        if (trimmed === 'changelog:') {
-            result.changelog = [];
-        }
-        if (trimmed.startsWith('- "') && result.changelog) {
-            result.changelog.push(trimmed.replace(/^-\s*"?/, '').replace(/"$/, ''));
-        }
-    });
-    return result;
-}
-
-function escHtml(str) {
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-
 async function doSearch(page = 1) {
     const raw = document.getElementById('searchInput').value.trim();
     if (!raw) return;
@@ -198,9 +91,6 @@ function debounce(fn, ms) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-
-    // Load app version dynamically from backend
-    loadVersion();
 
     // Search
     document.getElementById('searchBtn').addEventListener('click', () => doSearch(1));
