@@ -68,7 +68,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            ENVIRONMENT=prod
+            ENVIRONMENT=production
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
