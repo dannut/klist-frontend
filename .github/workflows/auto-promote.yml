@@ -1,4 +1,4 @@
-name: Auto-promote dev → staging
+name: Pipeline 1 — CI & Auto-promote dev → staging
 
 on:
   push:
