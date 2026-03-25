@@ -19,7 +19,8 @@ export default [
         clearTimeout: "readonly",
         navigator: "readonly",
         URLSearchParams: "readonly",
-        AbortController: "readonly"
+        AbortController: "readonly",
+        AbortSignal: "readonly"
       }
     }
   }
