@@ -28,26 +28,24 @@ function renderRoadmap(data) {
     const box = document.getElementById('roadmap-content');
     if (!box) return;
 
-    // Build released entries
+    // Build released block (single entry: date, tag, changelog)
+    const rel = parseYamlBlock(data.released || '');
     let releasedYaml = '';
-    const released = parseYamlList(data.released || '');
-    released.forEach(function(rel) {
-        releasedYaml += '  <span class="yd">-</span> <span class="yk">version:</span> <span class="yv">"'  + escHtml(rel.version || '') + '"</span>\n';
-        releasedYaml += '    <span class="yk">date:</span>    <span class="yv">"'  + escHtml(rel.date || '') + '"</span>\n';
-        releasedYaml += '    <span class="yk">tag:</span>     <span class="yok">"'  + escHtml(rel.tag || '') + '"</span>\n';
-        releasedYaml += '    <span class="yk">changelog:</span>\n';
-        (rel.changelog || []).forEach(function(item) {
-            releasedYaml += '      <span class="yd">-</span> <span class="yv">"'  + escHtml(item) + '"</span>\n';
+    if (rel.date) releasedYaml += '  <span class="yk">date:</span>    <span class="yv">"' + escHtml(rel.date) + '"</span>\n';
+    if (rel.tag)  releasedYaml += '  <span class="yk">tag:</span>     <span class="yok">"' + escHtml(rel.tag) + '"</span>\n';
+    if (rel.changelog && rel.changelog.length) {
+        releasedYaml += '  <span class="yk">changelog:</span>\n';
+        rel.changelog.forEach(function(item) {
+            releasedYaml += '    <span class="yd">-</span> <span class="yv">"' + escHtml(item) + '"</span>\n';
         });
-        releasedYaml += '      \n';
-    });
+    }
 
     // Build upcoming entries
     let upcomingYaml = '';
     const upcoming = parseYamlList(data.upcoming || '');
     upcoming.forEach(function(u) {
         upcomingYaml += '  <span class="yd">-</span> <span class="yk">feature:</span> <span class="yv">"'  + escHtml(u.feature || '') + '"</span>\n';
-        const statusClass = u.status === 'In Progress' ? 'ywarn' : 'yinfo';
+        const statusClass = u.status === 'in progress' ? 'ywarn' : 'yinfo';
         upcomingYaml += '    <span class="yk">status:</span>  <span class="' + statusClass + '">"'  + escHtml(u.status || '') + '"</span>\n';
     });
 
@@ -90,6 +88,26 @@ function parseYamlList(raw) {
     } catch {
         return [];
     }
+}
+
+// Parses a simple YAML block (key: value + changelog list) from ConfigMap
+function parseYamlBlock(raw) {
+    if (!raw || typeof raw !== 'string') return {};
+    const result = {};
+    raw.split('\n').forEach(function(line) {
+        const trimmed = line.trim();
+        const m = trimmed.match(/^(\w+):\s*"?([^"]*)"?/);
+        if (m && m[1] !== 'changelog') {
+            result[m[1]] = m[2].trim();
+        }
+        if (trimmed === 'changelog:') {
+            result.changelog = [];
+        }
+        if (trimmed.startsWith('- "') && result.changelog) {
+            result.changelog.push(trimmed.replace(/^-\s*"?/, '').replace(/"$/, ''));
+        }
+    });
+    return result;
 }
 
 function escHtml(str) {
