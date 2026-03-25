@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - staging
-    paths:
-      - 'src/**'
-      - 'nginx.conf'
-      - 'Dockerfile'
-      - 'package.json'
-      - 'package-lock.json'
   workflow_dispatch:
 
 env:
