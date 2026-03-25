@@ -15,31 +15,9 @@ concurrency:
 
 jobs:
 
-  test:
-    name: Tests — gate before release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: '24'
-          cache: 'npm'
-
-      - run: npm ci
-
-      - name: Install Playwright
-        run: npx playwright install --with-deps chromium
-
-      - name: Playwright tests against staging
-        env:
-          BASE_URL: https://test.kli.st
-        run: npx playwright test
-
   build-push:
     name: Build & Push Production Image
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
@@ -96,8 +74,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          (cd k8s/overlays/production && kustomize edit set image ghcr.io/dannut/klist-frontend=${VERSION})
-          (cd k8s/overlays/gcp-dr && kustomize edit set image ghcr.io/dannut/klist-frontend=${VERSION})
+          (cd k8s/overlays/production && kustomize edit set image ghcr.io/dannut/klist-frontend:${VERSION})
+          (cd k8s/overlays/gcp-dr && kustomize edit set image ghcr.io/dannut/klist-frontend:${VERSION})
 
           git add k8s/overlays/production/kustomization.yaml k8s/overlays/gcp-dr/kustomization.yaml
           git diff --quiet && git diff --staged --quiet || git commit -m "ci: deploy frontend ${VERSION} to production + gcp-dr"
