@@ -13,7 +13,7 @@ export async function searchCommands(query, page = 1, perPage = 10, signal) {
         page:     page,
         per_page: perPage,
     });
-    const res = await fetch(`${API_URL}?${params}`, { signal });
+    const res = await fetch(`${API_URL}?${params}`, { signal: signal ?? AbortSignal.timeout(10_000) });
     if (!res.ok) throw new Error('server error');
     return res.json();
 }
