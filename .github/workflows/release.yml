@@ -75,12 +75,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           (cd k8s/overlays/production && kustomize edit set image ghcr.io/dannut/klist-frontend:${VERSION})
-          (cd k8s/overlays/gcp-dr && kustomize edit set image ghcr.io/dannut/klist-frontend:${VERSION})
 
-          git add k8s/overlays/production/kustomization.yaml k8s/overlays/gcp-dr/kustomization.yaml
-          git diff --quiet && git diff --staged --quiet || git commit -m "ci: deploy frontend ${VERSION} to production + gcp-dr"
+          git add k8s/overlays/production/kustomization.yaml
+          git diff --quiet && git diff --staged --quiet || git commit -m "ci: deploy frontend ${VERSION} to production"
           git push origin deploy-frontend-${VERSION}
-          gh pr create --title "Deploy Frontend ${VERSION} to production" --body "Automated PR — frontend ${VERSION} → production + gcp-dr" --base main --head deploy-frontend-${VERSION}
+          gh pr create --title "Deploy Frontend ${VERSION} to production" --body "Automated PR — frontend ${VERSION} → production" --base main --head deploy-frontend-${VERSION}
 
   notify-success:
     name: Notify Success
