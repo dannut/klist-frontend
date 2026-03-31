@@ -422,7 +422,15 @@ input[type="text"]:focus {
 
     .main-card {
         border-radius: 12px;
-        max-height: calc(100vh - 76px);
+        height: calc(100vh - 76px);
+        max-height: none;
+        overflow: hidden;
+    }
+
+    .results-panel {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
     .search-panel { padding: 24px 16px 18px; }
