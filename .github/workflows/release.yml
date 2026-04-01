@@ -94,8 +94,8 @@ jobs:
           for i in $(seq 1 20); do
             STATUS=$(curl -sf https://kli.st/api/health | jq -r '.status' 2>/dev/null || echo "")
             if [ "$STATUS" = "UP" ]; then
-              echo "Health check passed — waiting 15min for Argo Rollouts analysis to complete..."
-              sleep 900
+              echo "Health check passed — waiting 12min for Argo Rollouts analysis to complete..."
+              sleep 720
               echo "Rollout analysis window passed — syncing GCP-DR"
               exit 0
             fi
